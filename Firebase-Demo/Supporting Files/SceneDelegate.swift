@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -18,13 +19,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
     // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
     
-    let loginViewSB = UIStoryboard(name: "LoginView", bundle: nil)
-    guard let windowScene = (scene as? UIWindowScene),
-      let loginViewController = loginViewSB.instantiateViewController(identifier: "LoginViewController") as? LoginViewController else { return }
+    
+    guard let windowScene = (scene as? UIWindowScene) else { return }
     window = UIWindow(frame: UIScreen.main.bounds)
     window?.windowScene = windowScene
-    window?.rootViewController = loginViewController
+    //window?.rootViewController = loginViewController
+    
+    if let _ = Auth.auth().currentUser {
+        UIViewController.showViewController(storyBoardName: "MainView", viewControllerId: "MainTabBarController")
+    } else {
+        UIViewController.showViewController(storyBoardName: "LoginView", viewControllerId: "LoginViewController")
+    }
+    
     window?.makeKeyAndVisible()
+
+    
+    
   }
 
   func sceneDidDisconnect(_ scene: UIScene) {
