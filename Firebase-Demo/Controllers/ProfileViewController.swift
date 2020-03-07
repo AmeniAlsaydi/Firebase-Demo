@@ -69,15 +69,13 @@ class ProfileViewController: UIViewController {
         print("original image size: \(selectedImage.size)")
         print("resized image size: \(resizedImage.size)")
         
-        // TODO:
-        
         // call storageServices.upload
         storageService.uploadPhoto(userId: user.uid, image: resizedImage) { [weak self] (result) in
             // code here to add the photoURL to the user's photoURL property then commit changes
             
             switch result {
             case .failure(let error):
-                self?.showAlert(title: "error uploading photo", message: "\(error.localizedDescription)")
+                self?.showAlert(title: "error uploading photo/ updating profile", message: "\(error.localizedDescription)")
             case .success(let url):
                 let request = Auth.auth().currentUser?.createProfileChangeRequest()
                 request?.displayName = displayName

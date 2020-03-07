@@ -21,7 +21,7 @@ class StorageService {
     
     // our signature will be taking in a userID or an itemID
     
-    // lets create a reference tp the Firebase storage
+    // lets create a reference to the Firebase storage
     
     private let storageRef = Storage.storage().reference()
     
@@ -31,7 +31,7 @@ class StorageService {
     // get download url and attach it to photo
     
     public func uploadPhoto(userId: String? = nil, itemId: String? = nil, image: UIImage, completion: @escaping (Result <URL, Error>) -> ()) {
-        // 1. convery UIimage to data because this is the object we are posting to firebase storage
+        // 1. convert UIimage to data because this is the object we are posting to firebase storage
         
         guard let imageData = image.jpegData(compressionQuality: 1.0) else {
             return

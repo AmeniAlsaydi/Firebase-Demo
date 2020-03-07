@@ -63,7 +63,8 @@ extension SellItemViewController: UICollectionViewDelegateFlowLayout {
            return CreateItemViewController(coder: coder, category: category)
          }
          //present in a navigation controller
-         present(UINavigationController(rootViewController: createItemVC), animated: true)
+        show(UINavigationController(rootViewController: createItemVC), sender: nil)
+         //present(UINavigationController(rootViewController: createItemVC), animated: true)
        }
     
 }

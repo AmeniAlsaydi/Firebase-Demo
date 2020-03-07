@@ -13,7 +13,7 @@ import FirebaseAuth
 class DatabaseService {
     
     static let itemsCollection = "items" // collection - convention: collection name is lower cased
-    // lets get a reference to thee firebase firestore database
+    // lets get a reference to the firebase firestore database
     
     private let db = Firestore.firestore() // top level of our database
     
@@ -22,7 +22,7 @@ class DatabaseService {
         
         // generate a document
         
-        let documentRef = db.collection(DatabaseService.itemsCollection).document() // returns a document reference with an auto generated id
+        let documentRef = db.collection(DatabaseService.itemsCollection).document() // returns a document reference with an auto generated id for items collections
         
         // create a document in our items collection
         
