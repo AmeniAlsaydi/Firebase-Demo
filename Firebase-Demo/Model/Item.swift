@@ -8,9 +8,6 @@
 
 import Foundation
 
-
-
-
 struct Item {
     let name: String
     let price: Double

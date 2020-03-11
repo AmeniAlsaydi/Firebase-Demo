@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 enum AccountState {
     case existingUser
@@ -26,6 +27,7 @@ class LoginViewController: UIViewController {
     private var accountState: AccountState = .existingUser
     
     private var authSession = AuthenticationSession()
+    private var databaseService = DatabaseService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,16 +68,34 @@ class LoginViewController: UIViewController {
                             self.errorLabel.textColor = .systemRed
 
                         }
-                    case .success(let authResultData):
+                    case .success(let authDataResult):
                         DispatchQueue.main.async {
-                            // TODO: navigate to the main VC
-                            self.navigateToMainView()
+                            // TODO: create a data base user
+                            self.createDatabaseUser(authDataResult: authDataResult)
+                            
+                            // navigate to the main VC
+                            // self.navigateToMainView()
 
                         }
                     }
                 }
             }
         }
+    
+    private func createDatabaseUser(authDataResult: AuthDataResult) {
+        databaseService.createDatabaseUser(authDataResult: authDataResult) { [weak self] (result) in
+            switch result {
+            case .failure(let error):
+                self?.showAlert(title: "Account error", message: error.localizedDescription)
+            case .success:
+                DispatchQueue.main.async {
+                     self?.navigateToMainView()
+                }
+               
+            }
+        }
+        
+    }
     
     private func navigateToMainView() {
         // we have the uiviewcontroller extension

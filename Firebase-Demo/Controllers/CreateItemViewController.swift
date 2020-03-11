@@ -117,9 +117,8 @@ class CreateItemViewController: UIViewController {
                 
             }
         }
-        
-        
     }
+    
     private func uploadPhoto(image: UIImage, documentId: String) {
         // takes in an image and a item id
         

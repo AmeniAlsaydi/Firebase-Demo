@@ -28,6 +28,7 @@ class ProfileViewController: UIViewController {
     }
     // use this instance to upload photo
     private let storageService = StorageService()
+    private let databaseService = DatabaseService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,8 +67,8 @@ class ProfileViewController: UIViewController {
         // resize image
         let resizedImage = UIImage.resizeImage(originalImage: selectedImage, rect: profileImageView.bounds)
         
-        print("original image size: \(selectedImage.size)")
-        print("resized image size: \(resizedImage.size)")
+        //print("original image size: \(selectedImage.size)")
+        //print("resized image size: \(resizedImage.size)")
         
         // call storageServices.upload
         storageService.uploadPhoto(userId: user.uid, image: resizedImage) { [weak self] (result) in
@@ -77,6 +78,7 @@ class ProfileViewController: UIViewController {
             case .failure(let error):
                 self?.showAlert(title: "error uploading photo/ updating profile", message: "\(error.localizedDescription)")
             case .success(let url):
+                self?.updateDatabaseUser(displayName: displayName, photoUrl: url.absoluteString)
                 let request = Auth.auth().currentUser?.createProfileChangeRequest()
                 request?.displayName = displayName
                 request?.photoURL = url
@@ -94,10 +96,21 @@ class ProfileViewController: UIViewController {
                 })
             }
         }
-        
-        
+
     }
     
+    private func updateDatabaseUser(displayName: String, photoUrl: String) {
+        databaseService.updateDatabaseUser(displayName: displayName, photoUrl: photoUrl) { (result) in
+            switch result {
+            case .failure(let error):
+                print("failed to update user profile: \(error.localizedDescription)")
+                //self.showAlert(title: "error updating profile", message: error.localizedDescription)
+            case .success:
+                print("successfully updated user ")
+            }
+        }
+        
+    }
     
    @IBAction func editProfilePhotoButtonPressed(_ sender: UIButton) {
       let alertController = UIAlertController(title: "Choose Photo Option", message: nil, preferredStyle: .actionSheet)
