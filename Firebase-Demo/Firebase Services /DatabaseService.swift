@@ -148,14 +148,15 @@ class DatabaseService {
     }
     
     public func isItemInFavorites(item: Item, completion: @escaping (Result<Bool, Error>) -> ()) {
-    guard let user = Auth.auth().currentUser else { return}
+        
+        guard let user = Auth.auth().currentUser else { return}
         
         // in firebase we use the "where" keyword to query the collection for a spe
         // addSnapshotListener: attach a listener to a collection when any changes happen changes are returned, continues to listen to changes to a colelction
         // get documents - fetches documents/document ONLY once - most apps use this and manually updates with a refresh controller.
         
         db.collection(DatabaseService.userCollection).document(user.uid).collection(DatabaseService.favoritesCollection).whereField("itemId", isEqualTo: item.id).getDocuments { (snapshot, error) in
-            // whats behind the word snapshot
+            // whats behind the word snapshot -- firebase uses the word snap shot to represent the current state of the data
             
             if let error = error {
                  completion(.failure(error))
@@ -169,6 +170,22 @@ class DatabaseService {
             }
         }
     }
+    
+    public func fetchUsersItems(userId: String, completion: @escaping (Result<[Item], Error>) -> ()) {
+       
+        // filter items collection by user id
+        // for cases of "sellerId" create a constant file and refer to them names from it rather than spelling it out
+        // e.g. Constant.sellerId which would be equal to and return"sellerId"
+        db.collection(DatabaseService.itemsCollection).whereField("sellerId", isEqualTo: userId).getDocuments { (snapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+            } else if let snapshot = snapshot {
+                let items = snapshot.documents.map { Item($0.data()) }
+                completion(.success(items))
+            
+        }
+        
+    }
 }
 
-
+}

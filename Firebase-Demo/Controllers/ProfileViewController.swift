@@ -10,10 +10,18 @@ import UIKit
 import FirebaseAuth
 import Kingfisher
 
+enum ViewState {
+    case myItems
+    case favorites
+}
+
 class ProfileViewController: UIViewController {
     @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var displayNameTextFeild: UITextField!
     @IBOutlet weak var emailLabel: UILabel!
+    @IBOutlet weak var tableView: UITableView!
+    
+     private var refreshControl: UIRefreshControl!
     
     private lazy var imagePickerController: UIImagePickerController = {
       let ip = UIImagePickerController()
@@ -26,15 +34,70 @@ class ProfileViewController: UIViewController {
         profileImageView.image = selectedImage
       }
     }
+    
     // use this instance to upload photo
     private let storageService = StorageService()
     private let databaseService = DatabaseService()
     
+    private var viewState: ViewState = .myItems {
+        didSet {
+            DispatchQueue.main.async {
+                self.tableView.reloadData() // logic in table view data source
+            }
+        }
+    }
+    
+    private var favorites = [String]() {
+        didSet {
+            tableView.reloadData() // logic in table view data source
+        }
+    }
+    
+    private var myItems = [Item]() {
+        didSet {
+            tableView.reloadData() // logic in table view data source
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-         getUserInfo()
+        getUserInfo()
         displayNameTextFeild.delegate = self
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(UINib(nibName: "ItemCell", bundle: nil), forCellReuseIdentifier: "ItemCell")
+        fetchItems()
+        
+        refreshControl = UIRefreshControl()
+        tableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: (#selector(fetchItems)), for: .valueChanged)
+    }
+    
+    @objc private func fetchItems() {
+        // we need the current user id
+        
+        guard let user = Auth.auth().currentUser else {
+            refreshControl.endRefreshing()
+            return
+            
+        }
+        
+        databaseService.fetchUsersItems(userId: user.uid) { [weak self ] (result) in
+            switch result {
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.showAlert(title: "Error fetching items", message: error.localizedDescription)
+                    
+                }
+            case .success(let items):
+                self?.myItems = items
+            }
+            
+            DispatchQueue.main.async {
+                self?.refreshControl.endRefreshing()
+            }
+        }
     }
     
     
@@ -143,6 +206,20 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    @IBAction func segmentedControlPressed(_ sender: UISegmentedControl) {
+        
+        switch sender.selectedSegmentIndex {
+        case 0:
+            viewState = .myItems
+            
+        case 1:
+            viewState = .favorites
+        default:
+            break
+        }
+        
+    }
+    
 }
 
 extension ProfileViewController: UITextFieldDelegate {
@@ -161,4 +238,39 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     selectedImage = image
     dismiss(animated: true)
   }
+}
+
+
+extension ProfileViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if viewState == .myItems {
+            return myItems.count
+        } else if viewState == .favorites {
+            return favorites.count
+        }
+        return favorites.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath) as? ItemCell else {
+            fatalError("could not down cast to item cell")
+        }
+        
+        if viewState == .myItems {
+            let item = myItems[indexPath.row]
+             cell.configureCell(item: item)
+        } else if viewState == .favorites {
+           let item = favorites[indexPath.row]
+        }
+       
+        return cell
+    }
+    
+    
+}
+
+extension ProfileViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 144
+    }
 }
