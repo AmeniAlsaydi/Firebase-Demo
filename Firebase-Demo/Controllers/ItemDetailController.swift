@@ -61,7 +61,7 @@ class ItemDetailController: UIViewController {
             } else if let snapshot = snapshot {
                 // create comments using dictionary intializer from the comment model
                 let comments = snapshot.documents.map {Comment($0.data())}
-                self.comments = comments.sorted {$0.commentDate.dateValue() < $1.commentDate.dateValue()}
+                self.comments = comments.sorted {$0.commentDate.dateValue() < $1.commentDate.dateValue()} // sorts from most recent to least recent?
                 
                 
             }
