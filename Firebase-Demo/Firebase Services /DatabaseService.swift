@@ -15,6 +15,7 @@ class DatabaseService {
     static let itemsCollection = "items" // collection - convention: collection name is lower cased
     static let userCollection = "users"
     static let commentCollection = "comments" // sub-collection on an item document
+    static let favoritesCollection = "favorites" //  sub-collection on a user document
     
     // Review - firebase heiarchy works like this
     // top level
@@ -117,6 +118,55 @@ class DatabaseService {
                 completion(.success(true))
             }
             
+        }
+    }
+    
+    public func addToFavorites(item: Item, completion: @escaping (Result<Bool, Error>) -> ()) {
+        guard let user =  Auth.auth().currentUser else { return}
+        
+        db.collection(DatabaseService.userCollection).document(user.uid).collection(DatabaseService.favoritesCollection).document(item.id).setData(["itemName": item.name, "price": item.price, "imageURL": item.imageURL, "favoritedDate": Timestamp(date: Date()), "itemId": item.id, "sellerName": item.sellerName, "sellerId": item.sellerId]) { (error) in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                completion(.success(true))
+            }
+        }
+    }
+    
+    public func removeFromFavorites(item: Item, completion: @escaping (Result<Bool, Error>) -> ()) {
+        guard let user = Auth.auth().currentUser else { return}
+        db.collection(DatabaseService.userCollection).document(user.uid).collection(DatabaseService.favoritesCollection).document(item.id).delete { (error) in
+            
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                completion(.success(true))
+            }
+            
+        }
+        
+    }
+    
+    public func isItemInFavorites(item: Item, completion: @escaping (Result<Bool, Error>) -> ()) {
+    guard let user = Auth.auth().currentUser else { return}
+        
+        // in firebase we use the "where" keyword to query the collection for a spe
+        // addSnapshotListener: attach a listener to a collection when any changes happen changes are returned, continues to listen to changes to a colelction
+        // get documents - fetches documents/document ONLY once - most apps use this and manually updates with a refresh controller.
+        
+        db.collection(DatabaseService.userCollection).document(user.uid).collection(DatabaseService.favoritesCollection).whereField("itemId", isEqualTo: item.id).getDocuments { (snapshot, error) in
+            // whats behind the word snapshot
+            
+            if let error = error {
+                 completion(.failure(error))
+                
+            } else if let snapshot = snapshot {
+                if snapshot.documents.count > 0 {
+                    completion(.success(true))
+                } else {
+                    completion(.success(false))
+                }
+            }
         }
     }
 }

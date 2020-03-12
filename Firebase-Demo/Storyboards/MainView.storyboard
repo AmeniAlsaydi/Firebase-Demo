@@ -339,7 +339,14 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="vzL-Je-3Pq"/>
                     </view>
-                    <navigationItem key="navigationItem" id="J8A-uN-6ST"/>
+                    <navigationItem key="navigationItem" id="J8A-uN-6ST">
+                        <barButtonItem key="rightBarButtonItem" image="heart" catalog="system" id="KFX-dq-GfO">
+                            <color key="tintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="favButtonPressed:" destination="sre-pR-O92" id="KaB-NU-bmy"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="commentTextField" destination="umD-H7-lcD" id="slU-Jl-ZzY"/>
                         <outlet property="containerBottomConstraints" destination="i0Z-82-XT0" id="zEl-HX-rQv"/>
@@ -426,6 +433,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="heart" catalog="system" width="64" height="54"/>
         <image name="house.fill" catalog="system" width="64" height="52"/>
         <image name="magnifyingglass" catalog="system" width="64" height="56"/>
         <image name="person" catalog="system" width="64" height="58"/>

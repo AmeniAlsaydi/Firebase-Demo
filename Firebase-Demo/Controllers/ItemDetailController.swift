@@ -42,6 +42,18 @@ class ItemDetailController: UIViewController {
         return formatter
     }()
     
+    private var isFavorite = false {
+        didSet {
+            if isFavorite {
+                navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart.fill")
+            } else {
+                navigationItem.rightBarButtonItem?.image = UIImage(systemName: "heart")
+
+            }
+            
+        }
+    }
+    
     init?(coder: NSCoder, item: Item) { // coder is needed since were coming from storyboard, coder converts the story board to 
         self.item = item
         
@@ -51,7 +63,7 @@ class ItemDetailController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    // life cycle methods
     override func viewDidAppear(_ animated: Bool) {
         listener = Firestore.firestore().collection(DatabaseService.itemsCollection).document(item.id).collection(DatabaseService.commentCollection).addSnapshotListener({ (snapshot, error) in
             if let error = error {
@@ -61,9 +73,7 @@ class ItemDetailController: UIViewController {
             } else if let snapshot = snapshot {
                 // create comments using dictionary intializer from the comment model
                 let comments = snapshot.documents.map {Comment($0.data())}
-                self.comments = comments.sorted {$0.commentDate.dateValue() < $1.commentDate.dateValue()} // sorts from most recent to least recent?
-                
-                
+                self.comments = comments.sorted {$0.commentDate.dateValue() < $1.commentDate.dateValue()}
             }
         })
     }
@@ -78,12 +88,31 @@ class ItemDetailController: UIViewController {
         originalValueForConstraint = containerBottomConstraints.constant
         commentTextField.delegate = self
         view.addGestureRecognizer(tapGesture)
+        updateUI()
         
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         unregisterKeyboardNotification()
         listener?.remove()
+    }
+    
+    private func updateUI() {
+        // check if item is a fav and update heart icon accordingly
+        dataService.isItemInFavorites(item: item) { (result) in
+            switch result {
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self.showAlert(title: "Try again", message: error.localizedDescription)
+                }
+            case .success(let success):
+                if success {
+                    self.isFavorite = true
+                } else {
+                     self.isFavorite = false
+                }
+            }
+        }
     }
     
     @IBAction func sendButtonPressed(_ sender: UIButton) {
@@ -146,6 +175,48 @@ class ItemDetailController: UIViewController {
     @objc private func dismissKeyboard() {
         containerBottomConstraints.constant = originalValueForConstraint
         commentTextField.resignFirstResponder()
+    }
+    
+    
+    @IBAction func favButtonPressed(_ sender: UIBarButtonItem) {
+        // check if already favorited - unfav it
+        // else favorite it
+        
+        // add a sub collection to users called favorites (a list of their favorite items)
+        
+        if isFavorite { // remove from favs
+            
+            
+            dataService.removeFromFavorites(item: item) { [weak self] (result) in
+                switch result {
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        self?.showAlert(title: "Error un-favoriting", message: error.localizedDescription)
+                    }
+                case .success:
+                    DispatchQueue.main.async {
+                        self?.showAlert(title: "Item removed from fav", message: nil)
+                        self?.isFavorite = false
+                    }
+                }
+            }
+        } else { // add to favorites
+
+            dataService.addToFavorites(item: item) { [weak self] (result) in
+                switch result {
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        self?.showAlert(title: "Error favoriting", message: error.localizedDescription)
+                    }
+                case .success:
+                    DispatchQueue.main.async {
+                        self?.showAlert(title: "Item faved", message: nil)
+                        self?.isFavorite = true
+                    }
+                }
+            }
+        }
+        
     }
     
 }
