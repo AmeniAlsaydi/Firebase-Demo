@@ -159,7 +159,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Enter display name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zOF-hb-ANb">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="Enter display name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zOF-hb-ANb">
                                 <rect key="frame" x="20" y="224" width="374" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="gLF-cU-2CA"/>
@@ -250,7 +250,7 @@
             </objects>
             <point key="canvasLocation" x="89.855072463768124" y="760.71428571428567"/>
         </scene>
-        <!--Item Feed View Controller-->
+        <!--Marketplace -->
         <scene sceneID="RcX-Ho-m0h">
             <objects>
                 <viewController id="aTF-Y4-FKb" customClass="ItemFeedViewController" customModule="Firebase_Demo" customModuleProvider="target" sceneMemberID="viewController">
@@ -272,7 +272,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="bxo-bO-djF"/>
                     </view>
-                    <navigationItem key="navigationItem" id="cq7-l9-idF"/>
+                    <navigationItem key="navigationItem" title="Marketplace " id="cq7-l9-idF"/>
                     <connections>
                         <outlet property="tableView" destination="Bjq-9L-bSe" id="1q4-Mm-hT5"/>
                     </connections>
@@ -307,7 +307,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBrownColor" red="0.63529411759999999" green="0.51764705879999995" blue="0.36862745099999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="opaqueSeparatorColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="7iO-A4-6kQ"/>
                                     <constraint firstAttribute="trailing" secondItem="ALf-LF-zIi" secondAttribute="trailing" constant="8" id="cFX-sM-acn"/>
@@ -439,8 +439,8 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="MTm-mn-Dl5" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Item Feed" image="magnifyingglass" catalog="system" id="YCG-dx-m1I"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="4w8-hU-JtD">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="4w8-hU-JtD">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

@@ -71,7 +71,7 @@ extension ItemFeedViewController: UITableViewDataSource {
         
         let item = items[indexPath.row]
         
-        cell.configureCell(item: item)
+        cell.configureCell(for: item)
         
         return cell
     }

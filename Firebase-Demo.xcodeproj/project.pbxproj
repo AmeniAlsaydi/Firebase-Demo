@@ -16,6 +16,7 @@
 		57845AEF24092D5D00F35651 /* LoginView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57845AEE24092D5D00F35651 /* LoginView.storyboard */; };
 		57845AF124092DBB00F35651 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57845AF024092DBB00F35651 /* GradientView.swift */; };
 		57845AF324092DDC00F35651 /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57845AF224092DDC00F35651 /* DesignableView.swift */; };
+		B74AF8DB241BD17000D30957 /* Favorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74AF8DA241BD17000D30957 /* Favorite.swift */; };
 		B756852A240D5E0F00215AD6 /* MainView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7568529240D5E0F00215AD6 /* MainView.storyboard */; };
 		B756852C240D5F1400215AD6 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B756852B240D5F1400215AD6 /* MainTabBarController.swift */; };
 		B756852E240D5F3700215AD6 /* ItemFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B756852D240D5F3700215AD6 /* ItemFeedViewController.swift */; };
@@ -71,6 +72,7 @@
 		578824D50FCE996CC3BC4125 /* Pods_Firebase_DemoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Firebase_DemoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		70628E5320EA33C759A5B023 /* Pods-Firebase-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Firebase-Demo.release.xcconfig"; path = "Target Support Files/Pods-Firebase-Demo/Pods-Firebase-Demo.release.xcconfig"; sourceTree = "<group>"; };
 		86174277BAD3500597FB3617 /* Pods-Firebase-Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Firebase-Demo.debug.xcconfig"; path = "Target Support Files/Pods-Firebase-Demo/Pods-Firebase-Demo.debug.xcconfig"; sourceTree = "<group>"; };
+		B74AF8DA241BD17000D30957 /* Favorite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Favorite.swift; sourceTree = "<group>"; };
 		B7568529240D5E0F00215AD6 /* MainView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainView.storyboard; sourceTree = "<group>"; };
 		B756852B240D5F1400215AD6 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		B756852D240D5F3700215AD6 /* ItemFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemFeedViewController.swift; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 				B7E3613F240D784C00B15257 /* Category.swift */,
 				B7AC45E124198F720036F392 /* Comment.swift */,
 				B7B25AC4240D7B92003D9F37 /* Item.swift */,
+				B74AF8DA241BD17000D30957 /* Favorite.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -436,6 +439,7 @@
 				B756852E240D5F3700215AD6 /* ItemFeedViewController.swift in Sources */,
 				B7568532240D5F5700215AD6 /* ProfileViewController.swift in Sources */,
 				B7AC45E0241973D80036F392 /* HeaderView.swift in Sources */,
+				B74AF8DB241BD17000D30957 /* Favorite.swift in Sources */,
 				B7B25AC5240D7B92003D9F37 /* Item.swift in Sources */,
 				B7568536240D5FEE00215AD6 /* UIViewController+Alert.swift in Sources */,
 				B7669F0424100B02003F821D /* UIImage+Ext.swift in Sources */,

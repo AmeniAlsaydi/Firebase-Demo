@@ -187,5 +187,22 @@ class DatabaseService {
         
     }
 }
+    
+    public func fetchFavorites(completion: @escaping (Result<[Favorite], Error>) -> ()) {
+        // access the user collection -> userid (document) -> favorites collections
+        
+        guard let user = Auth.auth().currentUser else { return}
+        db.collection(DatabaseService.userCollection).document(user.uid).collection(DatabaseService.favoritesCollection).getDocuments { (snapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+            } else if let snapshot = snapshot {
+                // can use map here because there is a posibility that one of our properties is nil!!!!! we use a failable initializer
+                // compact map removes nil values from an array
+                // e.g. [4, nil, 12, -9, nil] compact map returns [4, 12, -9]
+                let favorties = snapshot.documents.compactMap { Favorite($0.data())}
+                completion(.success(favorties))
+            }
+        }
+    }
 
 }

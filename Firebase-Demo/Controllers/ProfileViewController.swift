@@ -47,7 +47,7 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    private var favorites = [String]() {
+    private var favorites = [Favorite]() {
         didSet {
             tableView.reloadData() // logic in table view data source
         }
@@ -67,11 +67,21 @@ class ProfileViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UINib(nibName: "ItemCell", bundle: nil), forCellReuseIdentifier: "ItemCell")
-        fetchItems()
+        loadData()
         
         refreshControl = UIRefreshControl()
         tableView.refreshControl = refreshControl
-        refreshControl.addTarget(self, action: (#selector(fetchItems)), for: .valueChanged)
+        refreshControl.addTarget(self, action: (#selector(loadData)), for: .valueChanged)
+    }
+    
+    @objc private func loadData() {
+        fetchItems()
+        fetchFavorites()
+    }
+    
+    
+    private func configureRefreshControl() {
+        
     }
     
     @objc private func fetchItems() {
@@ -98,6 +108,25 @@ class ProfileViewController: UIViewController {
                 self?.refreshControl.endRefreshing()
             }
         }
+    }
+    
+    private func fetchFavorites() {
+        databaseService.fetchFavorites { [weak self] (result) in
+            switch result {
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    self?.showAlert(title: "Error fetching favs", message: error.localizedDescription)
+                    
+                }
+            case .success(let favorites):
+                self?.favorites = favorites
+            }
+            
+            DispatchQueue.main.async {
+                self?.refreshControl.endRefreshing()
+            }
+        }
+        
     }
     
     
@@ -258,9 +287,11 @@ extension ProfileViewController: UITableViewDataSource {
         
         if viewState == .myItems {
             let item = myItems[indexPath.row]
-             cell.configureCell(item: item)
+            cell.configureCell(for: item)
         } else if viewState == .favorites {
-           let item = favorites[indexPath.row]
+           let favorite = favorites[indexPath.row]
+            cell.configureCell(for: favorite)
+            // cell.configureCell(item: favorite)
         }
        
         return cell

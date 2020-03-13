@@ -17,10 +17,30 @@ class ItemCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     
+    private lazy var tapGesture: UITapGestureRecognizer = {
+        let gesture = UITapGestureRecognizer()
+        gesture.addTarget(self, action: #selector(handleTap(_:)))
+        return gesture
+    }()
     
-    public func configureCell(item: Item) {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        itemImageView.layer.cornerRadius = 12
+        sellerNameLabel.textColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
+        // user interavtive
+        sellerNameLabel.isUserInteractionEnabled = true 
+        sellerNameLabel.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func handleTap(_ gesture: UITapGestureRecognizer) {
+        print("tapped ")
+    }
+    
+    public func configureCell(for item: Item) {
         
         // set up image
+        
+        updateUI(imageUrl: item.imageURL, itemName: item.name, sellerName: item.sellerName, date: item.listedDate, price: item.price)
         
         itemImageView.kf.setImage(with: URL(string: item.imageURL))
         
@@ -31,5 +51,23 @@ class ItemCell: UITableViewCell {
         priceLabel.text = "$\(price)"
         
     }
+    
+    
+    public func configureCell(for favorite: Favorite) {
+        updateUI(imageUrl: favorite.imageURL, itemName: favorite.itemName, sellerName: favorite.sellerName, date: favorite.favoritedDate.dateValue(), price: favorite.price)
+        
+    }
+    
+    private func updateUI(imageUrl: String, itemName: String, sellerName: String, date: Date, price: Double ) {
+        
+        itemImageView.kf.setImage(with: URL(string: imageUrl))
+        
+        itemNameLabel.text = itemName
+        sellerNameLabel.text = "@\(sellerName)"
+        dateLabel.text = date.description
+        let price = String(format: "%.2f", price)
+        priceLabel.text = "$\(price)"
+    }
+    
     
 }
