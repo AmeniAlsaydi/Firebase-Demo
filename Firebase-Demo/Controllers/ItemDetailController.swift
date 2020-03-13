@@ -36,12 +36,6 @@ class ItemDetailController: UIViewController {
         }
     }
     
-    private lazy var dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, MMM, d, h:m a"
-        return formatter
-    }()
-    
     private var isFavorite = false {
         didSet {
             if isFavorite {
@@ -236,7 +230,8 @@ extension ItemDetailController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "commentCell", for: indexPath)
         let comment = comments[indexPath.row]
-        let dateString = dateFormatter.string(from: comment.commentDate.dateValue())
+        
+        let dateString =  comment.commentDate.dateValue().dateString() // using the extension we created to Date. 
         
         cell.textLabel?.text = comment.text
         cell.detailTextLabel?.text = "@" + comment.commentedBy + " on " + dateString

@@ -9,7 +9,13 @@
 import UIKit
 import Kingfisher
 
+protocol ItemCellDelegate: AnyObject {
+    func didSelectSellerName(_ itemCell: ItemCell, item: Item)
+}
+
 class ItemCell: UITableViewCell {
+    
+    weak var delegate: ItemCellDelegate?
 
     @IBOutlet weak var itemImageView: UIImageView!
     @IBOutlet weak var itemNameLabel: UILabel!
@@ -23,32 +29,33 @@ class ItemCell: UITableViewCell {
         return gesture
     }()
     
+    private var currentItem: Item!
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         itemImageView.layer.cornerRadius = 12
         sellerNameLabel.textColor = #colorLiteral(red: 0.1411764771, green: 0.3960784376, blue: 0.5647059083, alpha: 1)
-        // user interavtive
-        sellerNameLabel.isUserInteractionEnabled = true 
+        // user interavtion needs
+        sellerNameLabel.isUserInteractionEnabled = true
         sellerNameLabel.addGestureRecognizer(tapGesture)
     }
     
     @objc private func handleTap(_ gesture: UITapGestureRecognizer) {
-        print("tapped ")
+        delegate?.didSelectSellerName(self, item: currentItem)
     }
     
     public func configureCell(for item: Item) {
-        
-        // set up image
+        currentItem = item
         
         updateUI(imageUrl: item.imageURL, itemName: item.name, sellerName: item.sellerName, date: item.listedDate, price: item.price)
         
-        itemImageView.kf.setImage(with: URL(string: item.imageURL))
-        
-        itemNameLabel.text = item.name
-        sellerNameLabel.text = "@\(item.sellerName)"
-        dateLabel.text = item.listedDate.description
-        let price = String(format: "%.2f", item.price)
-        priceLabel.text = "$\(price)"
+//        itemImageView.kf.setImage(with: URL(string: item.imageURL))
+//
+//        itemNameLabel.text = item.name
+//        sellerNameLabel.text = "@\(item.sellerName)"
+//        dateLabel.text = item.listedDate.description
+//        let price = String(format: "%.2f", item.price)
+//        priceLabel.text = "$\(price)"
         
     }
     
@@ -64,7 +71,7 @@ class ItemCell: UITableViewCell {
         
         itemNameLabel.text = itemName
         sellerNameLabel.text = "@\(sellerName)"
-        dateLabel.text = date.description
+        dateLabel.text = date.dateString()
         let price = String(format: "%.2f", price)
         priceLabel.text = "$\(price)"
     }

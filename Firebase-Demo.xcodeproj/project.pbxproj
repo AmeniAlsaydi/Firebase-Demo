@@ -17,6 +17,8 @@
 		57845AF124092DBB00F35651 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57845AF024092DBB00F35651 /* GradientView.swift */; };
 		57845AF324092DDC00F35651 /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57845AF224092DDC00F35651 /* DesignableView.swift */; };
 		B74AF8DB241BD17000D30957 /* Favorite.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74AF8DA241BD17000D30957 /* Favorite.swift */; };
+		B74AF8DD241BE5FA00D30957 /* SellerItemsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74AF8DC241BE5FA00D30957 /* SellerItemsController.swift */; };
+		B74AF8DF241BEEFB00D30957 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = B74AF8DE241BEEFB00D30957 /* Date+Ext.swift */; };
 		B756852A240D5E0F00215AD6 /* MainView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B7568529240D5E0F00215AD6 /* MainView.storyboard */; };
 		B756852C240D5F1400215AD6 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B756852B240D5F1400215AD6 /* MainTabBarController.swift */; };
 		B756852E240D5F3700215AD6 /* ItemFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B756852D240D5F3700215AD6 /* ItemFeedViewController.swift */; };
@@ -73,6 +75,8 @@
 		70628E5320EA33C759A5B023 /* Pods-Firebase-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Firebase-Demo.release.xcconfig"; path = "Target Support Files/Pods-Firebase-Demo/Pods-Firebase-Demo.release.xcconfig"; sourceTree = "<group>"; };
 		86174277BAD3500597FB3617 /* Pods-Firebase-Demo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Firebase-Demo.debug.xcconfig"; path = "Target Support Files/Pods-Firebase-Demo/Pods-Firebase-Demo.debug.xcconfig"; sourceTree = "<group>"; };
 		B74AF8DA241BD17000D30957 /* Favorite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Favorite.swift; sourceTree = "<group>"; };
+		B74AF8DC241BE5FA00D30957 /* SellerItemsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SellerItemsController.swift; sourceTree = "<group>"; };
+		B74AF8DE241BEEFB00D30957 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		B7568529240D5E0F00215AD6 /* MainView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainView.storyboard; sourceTree = "<group>"; };
 		B756852B240D5F1400215AD6 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		B756852D240D5F3700215AD6 /* ItemFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemFeedViewController.swift; sourceTree = "<group>"; };
@@ -194,6 +198,7 @@
 				B756852F240D5F4B00215AD6 /* SellItemViewController.swift */,
 				B7568531240D5F5700215AD6 /* ProfileViewController.swift */,
 				B7AC45DD24196A9B0036F392 /* ItemDetailController.swift */,
+				B74AF8DC241BE5FA00D30957 /* SellerItemsController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -233,6 +238,7 @@
 				B7568533240D5FAC00215AD6 /* UIViewController+Navigation.swift */,
 				B7568535240D5FEE00215AD6 /* UIViewController+Alert.swift */,
 				B7669F0324100B02003F821D /* UIImage+Ext.swift */,
+				B74AF8DE241BEEFB00D30957 /* Date+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -445,6 +451,8 @@
 				B7669F0424100B02003F821D /* UIImage+Ext.swift in Sources */,
 				57845ACD24092D4300F35651 /* AppDelegate.swift in Sources */,
 				57845AF124092DBB00F35651 /* GradientView.swift in Sources */,
+				B74AF8DF241BEEFB00D30957 /* Date+Ext.swift in Sources */,
+				B74AF8DD241BE5FA00D30957 /* SellerItemsController.swift in Sources */,
 				B7AC45DE24196A9B0036F392 /* ItemDetailController.swift in Sources */,
 				B7568530240D5F4B00215AD6 /* SellItemViewController.swift in Sources */,
 				B756852C240D5F1400215AD6 /* MainTabBarController.swift in Sources */,

@@ -70,7 +70,7 @@ extension ItemFeedViewController: UITableViewDataSource {
         }
         
         let item = items[indexPath.row]
-        
+        cell.delegate = self
         cell.configureCell(for: item)
         
         return cell
@@ -131,5 +131,19 @@ extension ItemFeedViewController: UITableViewDelegate {
         }
         navigationController?.pushViewController(detailVC, animated: true)
 
+    }
+}
+
+extension ItemFeedViewController: ItemCellDelegate {
+    func didSelectSellerName(_ itemCell: ItemCell, item: Item) {
+        
+        let storyboard = UIStoryboard(name: "MainView", bundle: nil)
+        // takes in a coder and an id
+        let sellerItemsVC = storyboard.instantiateViewController(identifier: "SellerItemsController") { (coder) in
+            return SellerItemsController(coder: coder, item: item)
+        }
+        
+        navigationController?.pushViewController(sellerItemsVC, animated: true)
+        print("in vc \(item.sellerName) was seleted")
     }
 }
